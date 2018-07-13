@@ -1,3 +1,4 @@
+import math
 import torch.optim as optim
 import torch
 import time
@@ -5,7 +6,6 @@ from torch.autograd import Variable
 from tqdm import tqdm
 from torch.utils.data import *
 import matplotlib
-
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
@@ -72,7 +72,8 @@ class Pix2Pix:
                                                          output_res=params["img_output_size"],
                                                          train=False)
         # Set learning rate schedule
-        self.set_lr_sched(params['train_epoch'], math.ceil(float(data_len) / float(params['batch_size'])),
+        self.set_lr_sched(params['train_epoch'],
+                          math.ceil(float(data_len) / float(params['batch_size'])),
                           params['lr_cycle_mult'])
 
         # Setup models
@@ -91,11 +92,11 @@ class Pix2Pix:
 
         print('Networks Initialized')
 
-        # Setup losses #
+        # Setup losses
         self.BCE_loss = nn.BCELoss()
         self.L1_loss = nn.L1Loss()
 
-        # Setup optimizers #
+        # Setup optimizers
         self.opt_dict["G"] = optim.Adam(self.model_dict["G"].parameters(),
                                         lr=params['lr_gen'],
                                         betas=(params['beta1'], params['beta2']),
@@ -108,7 +109,7 @@ class Pix2Pix:
 
         print('Losses Initialized')
 
-        # Setup history storage #
+        # Setup history storage
         self.losses = ['D_loss', 'G_D_loss', 'G_L_loss']
         self.loss_batch_dict = {}
         self.loss_batch_dict_test = {}
@@ -254,9 +255,12 @@ class Pix2Pix:
 
     def test_disc(self, real_a, real_b, fake_b):
         # test function for discriminator
+
+        # concat real_a and fake_b, real_a and real_b
         fake_cat = torch.cat([real_a.detach(), fake_b.detach()], 1)
         real_cat = torch.cat([real_a, real_b], 1)
 
+        # test dicriminator
         d_real = self.model_dict["D"](real_cat)
         d_real_loss = self.BCE_loss(d_real, Variable(torch.ones(d_real.size()).cuda()))
         d_fake = self.model_dict["D"](fake_cat)
@@ -271,17 +275,19 @@ class Pix2Pix:
         self.model_dict["G"].eval()
         self.opt_dict["G"].zero_grad()
         self.opt_dict["D"].zero_grad()
-        self.set_grad_req(d=False, g=False)
-        # test loop #
+
         for loss in self.losses:
             self.loss_epoch_dict_test[loss] = []
-
+        self.set_grad_req(d=False, g=False)
+        # test loop #
         for (real_a, real_b) in tqdm(self.test_loader):
             real_a, real_b = Variable(real_a.cuda()), Variable(real_b.cuda())
+            # GENERATE
             fake_b = self.model_dict["G"](real_a)
+            # TEST DISCRIMINATOR
             self.test_disc(real_a, real_b, fake_b)
+            # TEST GENERATOR
             self.test_gen(real_a, real_b, fake_b)
-
             # append all losses in loss dict #
             [self.loss_epoch_dict_test[loss].append(self.loss_batch_dict_test[loss].data[0]) for loss in self.losses]
 

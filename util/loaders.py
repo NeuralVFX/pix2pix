@@ -19,9 +19,11 @@ class NormDenorm:
         self.std = np.array(std, dtype=np.float32)
 
     def norm(self, img):
+        # normalize image to feed to network
         return img * self.std + self.mean
 
     def denorm(self, img, cpu=True, variable=True):
+        # reverse normalization for viewing
         if cpu:
             img = img.cpu()
         if variable:
@@ -54,6 +56,7 @@ class FlipCV(object):
         self.p_y = p_y
 
     def __call__(self, sample):
+        # use given probabilities to perform flip with CV
         flip_x = self.p_x > random.random()
         flip_y = self.p_y > random.random()
         if not flip_x and not flip_y:
@@ -75,15 +78,17 @@ class FlipCV(object):
 
 
 class TransformCV(object):
-    # resize image and bbox #
+    # apply random transform to image a and b #
 
     def __init__(self, rot=.1, height=.1, width=.1, zoom=.2):
+        # store range of possible transformations
         self.rot = rot
         self.height = height
         self.width = width
         self.zoom = zoom
 
     def get_random_transform(self, image):
+        # create random transformation matrix
         rows, cols, ch = image.shape
         height = ((random.random() - .5) * 2) * self.width
         width = ((random.random() - .5) * 2) * self.height
@@ -105,6 +110,7 @@ class TransformCV(object):
         return transform_matrix
 
     def __call__(self, sample):
+        # get transform and apply to both images
         image_a, image_b = sample['image'], sample['image_b']
         rows, cols, ch = image_a.shape
         transform_matrix = self.get_random_transform(image_a)
@@ -123,6 +129,7 @@ class ShoesDataset(Dataset):
     # Load Image and Apply Augmentation
 
     def get_subset(self, perc, seed=5):
+        # use to only load a percentage of the training set
         total_count = len(self.path_list_a)
         ids = list(range(total_count))
 
@@ -153,6 +160,7 @@ class ShoesDataset(Dataset):
             self.transform.norm(trans_dict['image_b']), 2)
 
     def __getitem__(self, index):
+        # lookup id from permuted list, apply transform, return tensor
         lookup_id = self.ids[index]
         image_path = self.path_list_a[lookup_id]
         image = cv2_open(image_path)
@@ -160,7 +168,6 @@ class ShoesDataset(Dataset):
         image_b = image[:, 256:, :]
 
         image_a, image_b = self.transform_set(image_a, image_b)
-
         tensor_a = torch.FloatTensor(image_a)
         tensor_b = torch.FloatTensor(image_b)
 
