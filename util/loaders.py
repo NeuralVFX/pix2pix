@@ -95,7 +95,11 @@ class TransformCV(object):
         rot = ((random.random() - .5) * 2) * self.rot
         zoom = (random.random() * self.zoom) + 1
 
-        rotation_matrix = cv2.getRotationMatrix2D((cols / 2, rows / 2), rot, zoom)
+        rotation_matrix = cv2.getRotationMatrix2D((cols / 2,
+                                                   rows / 2),
+                                                  rot,
+                                                  zoom)
+
         rotation_matrix = np.array([rotation_matrix[0],
                                     rotation_matrix[1],
                                     [0, 0, 1]])
@@ -114,10 +118,19 @@ class TransformCV(object):
         image_a, image_b = sample['image'], sample['image_b']
         rows, cols, ch = image_a.shape
         transform_matrix = self.get_random_transform(image_a)
-        image_a = cv2.warpAffine(image_a, transform_matrix[:2, :], (cols, rows), borderMode=cv2.BORDER_REFLECT,
+
+        image_a = cv2.warpAffine(image_a,
+                                 transform_matrix[:2, :],
+                                 (cols, rows),
+                                 borderMode=cv2.BORDER_REFLECT,
                                  flags=cv2.WARP_FILL_OUTLIERS + cv2.INTER_AREA)
-        image_b = cv2.warpAffine(image_b, transform_matrix[:2, :], (cols, rows), borderMode=cv2.BORDER_REFLECT,
+
+        image_b = cv2.warpAffine(image_b,
+                                 transform_matrix[:2, :],
+                                 (cols, rows),
+                                 borderMode=cv2.BORDER_REFLECT,
                                  flags=cv2.WARP_FILL_OUTLIERS + cv2.INTER_AREA)
+
         return {'image': image_a, 'image_b': image_b}
 
 
@@ -146,8 +159,8 @@ class ShoesDataset(Dataset):
         self.transform = transform
         self.path_list_a = sorted(glob.glob(f'{path_a}/*.*'))
         self.output_res = output_res
-        self.data_transforms = transforms.Compose(
-            [FlipCV(p_x=.5, p_y=0), TransformCV(rot=25, height=.1, width=.1, zoom=.2)])
+        self.data_transforms = transforms.Compose([FlipCV(p_x=.5, p_y=0),
+                                                   TransformCV(rot=25, height=.1, width=.1, zoom=.2)])
         self.ids = self.get_subset(perc)
 
     def transform_set(self, image_a, image_b):
@@ -156,8 +169,8 @@ class ShoesDataset(Dataset):
 
         if self.train:
             trans_dict = self.data_transforms(trans_dict)
-        return np.rollaxis(self.transform.norm(trans_dict['image']), 2), np.rollaxis(
-            self.transform.norm(trans_dict['image_b']), 2)
+        return np.rollaxis(self.transform.norm(trans_dict['image']), 2),\
+               np.rollaxis(self.transform.norm(trans_dict['image_b']), 2)
 
     def __getitem__(self, index):
         # lookup id from permuted list, apply transform, return tensor
