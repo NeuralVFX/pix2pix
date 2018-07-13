@@ -8,6 +8,7 @@ from torch.utils.data import *
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
+import torch.nn as nn
 
 from util import helpers as helper
 from util import loaders as load
