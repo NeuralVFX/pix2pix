@@ -81,7 +81,6 @@ class Generator(nn.Module):
         self.core = nn.Sequential(*core)
         self.up = nn.ModuleList(up)
 
-
     def forward(self, x):
         skip_list = []
         # collect skips from conv operations
