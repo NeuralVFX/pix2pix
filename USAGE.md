@@ -1,7 +1,7 @@
 
 ## Getting Started
 - Install torch and dependencies from https://github.com/torch/distro
-- Install packages 'tqdm', 'PIL', 'matplotlib', 'tar'
+- Install packages 'tqdm', 'cv2', 'matplotlib', 'tar'
 
 - Clone this repo:
 ```bash
