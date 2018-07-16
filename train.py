@@ -24,7 +24,7 @@ parser.add_argument('--beta1', nargs='?', default=.5, type=float)
 parser.add_argument('--beta2', nargs='?', default=.999, type=float)
 parser.add_argument('--alpha', nargs='?', default=10, type=int)
 parser.add_argument('--train_epoch', nargs='?', default=6, type=int)
-parser.add_argument('--ids', type=int, nargs='+', default=[10, 20])
+parser.add_argument('--ids', type=int, nargs='+', default=[1, 53, 62])
 parser.add_argument('--save_root', nargs='?', default='shoes', type=str)
 parser.add_argument('--load_state', nargs='?', type=str)
 
