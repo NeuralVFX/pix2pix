@@ -10,4 +10,5 @@ Usage instructions found here: [user manual page](USAGE.md).
 
 # Example Results
 ## Edges2Shoes
+#### (1: Edge Image  — 2: Real Shoe — 3: Generated Shoe)
 ![](examples/shoes_127_results.jpg)
