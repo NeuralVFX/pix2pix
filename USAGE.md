@@ -15,12 +15,12 @@ bash data/get_test_dataset.sh
 
 ## Train The Model
 ```bash
-python train.py --dataset edges2shoes --train_epoch 5  --save_root shoes 
+python train.py --dataset edges2shoes --train_epoch 7  --save_root shoes 
 ```
 
 ## Continue Training Existing Saved State
 ```bash
-python train.py --dataset edges2shoes --train_epoch 5  --save_root shoes  --load_state output/shoes_3.json
+python train.py --dataset edges2shoes --train_epoch 7  --save_root shoes  --load_state output/shoes_3.json
 ```
 
 ## Command Line Arguments
@@ -75,8 +75,8 @@ Test Dir:
 - Loss Graph Example: `output/shoes_loss.jpg`
 ![](output/shoes_loss.jpg)
 
-- Test Image Example (output every loop through dataset): `output/shoes_255.jpg`
-![](output/shoes_255.jpg)
+- Test Image Example (output every loop through dataset): `output/shoes_127_test.jpg`
+![](output/shoes_127_test.jpg)
 
 ## Other Notes
 
