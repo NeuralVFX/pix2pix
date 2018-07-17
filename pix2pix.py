@@ -43,8 +43,8 @@ class Pix2Pix:
               'img_output_size':256,
               'ids': [0, 1],
               'save_root': 'shoes'}
-    lgtSwap = Pix2Pix(params)
-    lgtSwap.train()
+    p2p = Pix2Pix(params)
+    p2p.train()
     """
 
     def __init__(self, params):
@@ -138,7 +138,7 @@ class Pix2Pix:
             self.model_dict[i].load_state_dict(state['models'][i])
         for i in self.opt_dict.keys():
             self.opt_dict[i].load_state_dict(state['optimizers'][i])
-            
+
         self.train_hist_dict = state['train_hist']
         self.train_hist_dict_test = state['train_hist_test']
 
