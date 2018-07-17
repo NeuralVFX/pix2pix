@@ -72,7 +72,7 @@ Test Dir:
 - Learning Rate Graph Example: `output/shoes_learning_rate_schedule.jpg`
 ![](output/shoes_learning_rate_schedule.jpg)
 
-- Loss Graph Example: `output/shoes_loss.jpg`
+- Loss Graph Example: `output/shoes_loss.jpg` (This should show test losses also, fixing now)
 ![](output/shoes_loss.jpg)
 
 - Test Image Example (output every loop through dataset): `output/shoes_127_test.jpg`
