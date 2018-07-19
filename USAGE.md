@@ -1,6 +1,6 @@
 
 ## Getting Started
-- Install `torch 0.3.1` and dependencies from https://github.com/torch/distro
+- Install `pytorch 0.3.1` and dependencies from https://pytorch.org/
 - Install packages `tqdm`, `cv2`, `matplotlib`, `tar`
 
 - Clone this repo:
