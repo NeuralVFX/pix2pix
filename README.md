@@ -3,7 +3,7 @@ This is an implementation of Pix2Pix based on this paper(https://arxiv.org/pdf/1
 
 The dataset I've done my first test with is [edges2shoes](https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets/edges2shoes.tar.gz)
 
-# Code usage
+# Code Usage
 
 Usage instructions found here: [user manual page](USAGE.md).
 
